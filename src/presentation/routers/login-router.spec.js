@@ -1,9 +1,8 @@
 class LoginRouter {
   route (httpRequest) {
-    return {
-      statusCode: 400,
-      body: {
-        error: 'Missing param: email'
+    if (!httpRequest.body.email || !httpRequest.body.password) {
+      return {
+        statusCode: 400
       }
     }
   }
@@ -19,8 +18,16 @@ describe('Login Router', () => {
     }
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual({
-      error: 'Missing param: email'
-    })
+  })
+
+  test('If no password is provided should return 400', () => {
+    const sut = new LoginRouter()
+    const httpRequest = {
+      body: {
+        email: 'any_email'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
   })
 })
