@@ -1,21 +1,11 @@
 const validator = require('validator')
-
-class EmailValidatorSpy {
-  isValid (email) {
-    return validator.isEmail(email)
-  }
-}
-
-function MakeEmailValidatorSpy () {
-  const emailValidatorSpy = new EmailValidatorSpy()
-  return emailValidatorSpy
-}
+const EmailValidator = require('./email-validator')
 
 const makeSut = () => {
-  return new MakeEmailValidatorSpy()
+  return new EmailValidator()
 }
 
-describe('Email Validator ', () => {
+describe('Email Validator', () => {
   test('Should return true if validator returns true', () => {
     const sut = makeSut()
     const isEmailValid = sut.isValid('valid_email@mail.com')
